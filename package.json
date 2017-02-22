@@ -1,0 +1,25 @@
+{
+  "name": "path-extra",
+  "version": "0.0.1",
+  "description": "Methods that aren't included in the vanilla NodeJS path module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivan Kleshnin <ivan@paqmind.com> (paqmind.com)",
+  "homepage": "https://github.com/ivan-kleshnin/path-extra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivan-kleshnin/path-extra"
+  },
+  "keywords": [
+    "fs",
+    "file",
+    "file system",
+    "path"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "ramda": "0.23.x"
+  }
+}
