@@ -2,13 +2,9 @@
 
 Extra utils to work with FS paths. Do not use for URLs (FS specific).
 
-#### Dependencies
-
-No
-
 #### Peer dependencies
 
-* [NodeJS stdlib](`https://nodejs.org/api/`).
+* [NodeJS stdlib](https://nodejs.org/api/)
 * [RamdaJS](http://ramdajs.com/)
 
 ## Examples
@@ -81,7 +77,7 @@ rightDir("foo")                // ""
 rightDir("foo/")               // "foo"
 ```
 
-#### `addLeftDir :: String -> String -> String``
+#### `addLeftDir :: String -> String -> String`
 
 ```js
 addLeftDir("foo", "bar/index.html") // "foo/bar/index.html"
