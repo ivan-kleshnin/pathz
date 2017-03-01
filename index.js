@@ -12,7 +12,6 @@ let parsep = (path) => {
   return obj
 }
 
-// Getters
 let dir = dirname
 
 let base = basename
@@ -35,7 +34,6 @@ let rightDir = (path) => {
   return trail(split(sep, obj.dir))
 }
 
-// Adders / Droppers
 let addLeftDir = curry((leftDir, path) => {
   let obj = parsep(path)
   return format({
@@ -70,7 +68,10 @@ let dropRightDir = (path) => {
   })
 }
 
-// Setters
+let withLeftDir = curry((leftDir, path) => pipe(dropLeftDir, addLeftDir(leftDir))(path))
+
+let withRightDir = curry((rightDir, path) => pipe(dropRightDir, addRightDir(rightDir))(path))
+
 let withDir = curry((dir, path) => {
   let obj = parsep(path)
   return format({
@@ -105,9 +106,26 @@ let withExt = curry((ext, path) => {
   })
 })
 
-let withLeftDir = curry((leftDir, path) => pipe(dropLeftDir, addLeftDir(leftDir))(path))
+let dropBase = withBase("")
 
-let withRightDir = curry((rightDir, path) => pipe(dropRightDir, addRightDir(rightDir))(path))
+let dropExt = withExt("")
+
+let pad = curry((z, w, s) => {
+  return (z.repeat(w) + s).slice(s.length)
+})
+
+let padNumeric = curry((w, s) => {
+  let n = Number(s)
+  if (isNaN(n)) {
+    return s
+  } else {
+    return pad("0", w, s)
+  }
+})
+
+let padName = curry((w, s) => pipe(split("."), map(padNumeric(w)), join("."))(s))
+
+let padPath = curry((w, s) => pipe(split(sep), map(padName(w)), join(sep))(s))
 
 exports.dir = dir
 exports.base = base
@@ -120,6 +138,8 @@ exports.addLeftDir = addLeftDir
 exports.addRightDir = addRightDir
 exports.dropLeftDir = dropLeftDir
 exports.dropRightDir = dropRightDir
+exports.dropBase = dropBase
+exports.dropExt = dropExt
 
 exports.withDir = withDir
 exports.withBase = withBase
@@ -127,3 +147,8 @@ exports.withName = withName
 exports.withExt = withExt
 exports.withLeftDir = withLeftDir
 exports.withRightDir = withRightDir
+
+exports.pad = pad
+exports.padNumeric = padNumeric
+exports.padName = padName
+exports.padPath = padPath
