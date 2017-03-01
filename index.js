@@ -5,7 +5,7 @@ let trail = (xs) => head(drop(xs.length - 1, xs))
 
 let parsep = (path) => {
   let obj = parse(path)
-  if (path.endsWith("/")) {
+  if (path.endsWith(sep)) {
     obj.dir = joinp(obj.dir, obj.base)
     obj.base = ""
   }
