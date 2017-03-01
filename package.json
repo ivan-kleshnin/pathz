@@ -1,6 +1,6 @@
 {
   "name": "path-extra",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Methods that aren't included in the vanilla NodeJS path module.",
   "main": "index.js",
   "scripts": {

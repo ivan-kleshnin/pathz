@@ -2,7 +2,14 @@
 
 Extra utils to work with FS paths. Do not use for URLs (FS specific).
 
-Relies on `path.format` and `path.parse`.
+#### Dependencies
+
+No
+
+#### Peer dependencies
+
+* [NodeJS stdlib](`https://nodejs.org/api/`).
+* [RamdaJS](http://ramdajs.com/)
 
 ## Examples
 
@@ -25,7 +32,7 @@ padPath(2, "content/1.folder/file.1.md") // "content/01.folder/file.01.md"
 
 No NPM for now.
 
-```
+```json
 // package.json
 {
   "dependencies": {
