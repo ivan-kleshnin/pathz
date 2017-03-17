@@ -1,6 +1,6 @@
 let {leftDir, rightDir, addLeftDir, addRightDir, dropLeftDir,
     dropRightDir, withLeftDir, withRightDir, withDir, withBase, withName,
-    withExt, dropBase, dropExt, pad, padNumeric} = require('../index.js');
+    withExt, dropBase, dropExt, pad, padNumeric, padName, padPath} = require('../index.js');
 var assert = require('assert');
 var expect = require('chai').expect;
 
@@ -102,6 +102,18 @@ describe('index.js', () => {
 
         it('padNumeric(w, s) should return s if typeOf s !== number', () => {
             assert.equal('abc', padNumeric(3, 'abc'));
+        });
+    });
+
+    describe('tested-function-padName', () => {
+        it(' padName(2, "0.a.1") should return 00.a.01', () => {
+            assert.equal('00.a.01', padName(2, "0.a.1"));
+        });
+    });
+
+    describe('tested-function-padPath', () => {
+        it(' padPath(4, "0.a.1") should return 0000.a.0001', () => {
+            assert.equal('0000.a.0001', padPath(4, "0.a.1"));
         });
     });
 });
