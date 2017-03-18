@@ -19,7 +19,13 @@
     "path"
   ],
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "ramda": "0.23.x"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
