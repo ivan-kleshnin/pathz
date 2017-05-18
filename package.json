@@ -1,10 +1,10 @@
 {
   "name": "path-extra",
   "version": "0.0.2",
-  "description": "Methods that aren't included in the vanilla NodeJS path module.",
+  "description": "Functional API to work with FS paths (NodeJS Path rethinked)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Ivan Kleshnin <ivan@paqmind.com> (paqmind.com)",
   "homepage": "https://github.com/ivan-kleshnin/path-extra",
@@ -24,8 +24,5 @@
   },
   "devDependencies": {
     "mocha": "^3.2.0"
-  },
-  "scripts": {
-    "test": "mocha"
   }
 }

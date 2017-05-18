@@ -1,20 +1,29 @@
-let {basename, dirname, format, join: joinp, parse, resolve, sep} = require("path")
-let {curry, drop, dropLast, head, join, map, pipe, split} = require("./_helpers")
+// Some hacks until a proper tree shaking comes
+let R = {}
+R.curry = require("ramda/src/curry")
+R.drop = require("ramda/src/drop")
+R.dropLast = require("ramda/src/dropLast")
+R.join = require("ramda/src/join")
+R.nth = require("ramda/src/nth")
+R.pipe = require("ramda/src/pipe")
+R.split = require("ramda/src/split")
+let P = require("path")
 
-let trail = (xs) => head(drop(xs.length - 1, xs))
+R.head = R.nth(0)
+R.trail = (xs) => R.nth(xs.length - 1, xs)
 
-let parsep = (path) => {
-  let obj = parse(path)
-  if (path.endsWith(sep)) {
-    obj.dir = joinp(obj.dir, obj.base)
+let parse = (path) => {
+  let obj = P.parse(path)
+  if (path.endsWith(P.sep)) {
+    obj.dir = P.join(obj.dir, obj.base)
     obj.base = ""
   }
   return obj
 }
 
-let dir = dirname
+let dir = P.dirname
 
-let base = basename
+let base = P.basename
 
 let name = (path) => {
   return withExt("", base(path))
@@ -25,81 +34,81 @@ let ext = (path) => {
 }
 
 let leftDir = (path) => {
-  let obj = parsep(path)
-  return head(split(sep, obj.dir))
+  let obj = parse(path)
+  return R.head(R.split(P.sep, obj.dir))
 }
 
 let rightDir = (path) => {
-  let obj = parsep(path)
-  return trail(split(sep, obj.dir))
+  let obj = parse(path)
+  return R.trail(R.split(P.sep, obj.dir))
 }
 
-let addLeftDir = curry((leftDir, path) => {
-  let obj = parsep(path)
-  return format({
-    dir: joinp(leftDir, obj.dir),
+let addLeftDir = R.curry((leftDir, path) => {
+  let obj = parse(path)
+  return P.format({
+    dir: P.join(leftDir, obj.dir),
     base: obj.base,
   })
 })
 
-let addRightDir = curry((rightDir, path) => {
-  let obj = parsep(path)
-  return format({
-    dir:  joinp(obj.dir, rightDir),
+let addRightDir = R.curry((rightDir, path) => {
+  let obj = parse(path)
+  return P.format({
+    dir:  P.join(obj.dir, rightDir),
     base: obj.base,
   })
 })
 
 let dropLeftDir = (path) => {
-  let obj = parsep(path)
-  let newDir = pipe(split(sep), drop(1), join(sep))(obj.dir)
-  return format({
+  let obj = parse(path)
+  let newDir = R.pipe(R.split(P.sep), R.drop(1), R.join(P.sep))(obj.dir)
+  return P.format({
     dir: newDir,
     base: obj.base,
   })
 }
 
 let dropRightDir = (path) => {
-  let obj = parsep(path)
-  let newDir = pipe(split(sep), dropLast(1), join(sep))(obj.dir)
-  return format({
+  let obj = parse(path)
+  let newDir = R.pipe(R.split(P.sep), R.dropLast(1), R.join(P.sep))(obj.dir)
+  return P.format({
     dir: newDir,
     base: obj.base,
   })
 }
 
-let withLeftDir = curry((leftDir, path) => pipe(dropLeftDir, addLeftDir(leftDir))(path))
+let withLeftDir = R.curry((leftDir, path) => R.pipe(dropLeftDir, addLeftDir(leftDir))(path))
 
-let withRightDir = curry((rightDir, path) => pipe(dropRightDir, addRightDir(rightDir))(path))
+let withRightDir = R.curry((rightDir, path) => R.pipe(dropRightDir, addRightDir(rightDir))(path))
 
-let withDir = curry((dir, path) => {
-  let obj = parsep(path)
-  return format({
+let withDir = R.curry((dir, path) => {
+  let obj = parse(path)
+  return P.format({
     dir,
     base: obj.base,
   })
 })
 
-let withBase = curry((base, path) => {
-  let obj = parsep(path)
-  return format({
+let withBase = R.curry((base, path) => {
+  let obj = parse(path)
+  return P.format({
     dir: obj.dir,
     base,
   })
 })
 
-let withName = curry((name, path) => {
-  let obj = parsep(path)
-  return format({
+let withName = R.curry((name, path) => {
+  let obj = parse(path)
+  return P.format({
     dir: obj.dir,
     name,
     ext: obj.ext,
   })
 })
 
-let withExt = curry((ext, path) => {
-  let obj = parsep(path)
-  return format({
+let withExt = R.curry((ext, path) => {
+  let obj = parse(path)
+  return P.format({
     dir: obj.dir,
     name: obj.name,
     ext,
@@ -109,23 +118,6 @@ let withExt = curry((ext, path) => {
 let dropBase = withBase("")
 
 let dropExt = withExt("")
-
-let pad = curry((z, w, s) => {
-  return (z.repeat(w) + s).slice(s.length)
-})
-
-let padNumeric = curry((w, s) => {
-  let n = Number(s)
-  if (isNaN(n)) {
-    return s
-  } else {
-    return pad("0", w, s)
-  }
-})
-
-let padName = curry((w, s) => pipe(split("."), map(padNumeric(w)), join("."))(s))
-
-let padPath = curry((w, s) => pipe(split(sep), map(padName(w)), join(sep))(s))
 
 exports.dir = dir
 exports.base = base
@@ -148,7 +140,26 @@ exports.withExt = withExt
 exports.withLeftDir = withLeftDir
 exports.withRightDir = withRightDir
 
-exports.pad = pad
-exports.padNumeric = padNumeric
-exports.padName = padName
-exports.padPath = padPath
+exports.isAbsolute = P.isAbsolute
+exports.join = P.join
+exports.normalize = P.normalize
+exports.relative = P.relative
+exports.resolve = P.resolve
+
+/*
+Full original API commented:
+* delimiter – low-level, import directly
+* posix – low-level, import directly
+* sep – low-level, import directly
+* win32 – low-level, import directly
+* basename – wrapped, use P.base instead
+* dirname – wrapped, use P.dir instead
+* extname – wrapped, use P.ext instead
+* format – wrapped, use P helpers instead
+* parse – wrapped, use P helpers instead
+* isAbsolute – reexported
+* join – reexported
+* normalize – reexported
+* relative – reexported
+* resolve – reexported
+*/

@@ -1,8 +1,0 @@
-exports.curry = require("ramda/src/curry")
-exports.drop = require("ramda/src/drop")
-exports.dropLast = require("ramda/src/dropLast")
-exports.head = require("ramda/src/head")
-exports.join = require("ramda/src/join")
-exports.map = require("ramda/src/map")
-exports.pipe = require("ramda/src/pipe")
-exports.split = require("ramda/src/split")
