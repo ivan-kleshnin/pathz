@@ -41,11 +41,17 @@ No NPM for now.
 
 #### `dir :: String -> String`
 
-Alias for `path.dirname`.
+```js
+P.dir("foo/bar/baz.txt") // "foo/bar/" (P.dirname + "/")
+P.dir("foo/bar/")        // "foo/bar/" (identity)
+```
 
 #### `base :: String -> String`
 
-Alias for `path.basename`.
+```js
+P.base("foo/bar/baz.txt") // "baz.txt" (P.basename)
+P.base("foo/bar/")        // ""        (zero)
+```
 
 #### `name :: String -> String`
 
