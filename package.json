@@ -1,6 +1,6 @@
 {
   "name": "path-extra",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Functional API to work with FS paths (NodeJS Path rethinked)",
   "main": "index.js",
   "scripts": {
