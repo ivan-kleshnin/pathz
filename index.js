@@ -21,9 +21,15 @@ let parse = (path) => {
   return obj
 }
 
-let dir = P.dirname
+let ensureDir = (path) => path.endsWith(P.sep) ? path : path + P.sep
 
-let base = P.basename
+let dir = (path) => {
+  return path.endsWith(P.sep) ? path : P.dirname(path) + P.sep
+}
+
+let base = (path) => {
+  return path.endsWith(P.sep) ? "" : P.basename(path)
+}
 
 let name = (path) => {
   return withExt("", base(path))
@@ -119,6 +125,7 @@ let dropBase = withBase("")
 
 let dropExt = withExt("")
 
+exports.ensureDir = ensureDir
 exports.dir = dir
 exports.base = base
 exports.name = name
