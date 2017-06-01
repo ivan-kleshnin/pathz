@@ -4,7 +4,7 @@
   "description": "Functional API to work with FS paths (NodeJS Path rethinked)",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha tests/ --recursive"
   },
   "author": "Ivan Kleshnin <ivan@paqmind.com> (paqmind.com)",
   "homepage": "https://github.com/ivan-kleshnin/path-extra",
