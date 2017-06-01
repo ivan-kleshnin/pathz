@@ -289,4 +289,23 @@ describe("index.js", () => {
       eq(P.dropExt("/foo/bar/baz/"), "/foo/bar/baz/")
     })
   })
+
+  describe("padNumeric()", () => {
+    it("works", () => {
+      eq(P.padNumeric(4, "x"), "x")
+      eq(P.padNumeric(4, "1"), "0001")
+    })
+  })
+
+  describe("padName()", () => {
+    it("works", () => {
+      eq(P.padName(2, "1.1.foo.js"), "01.01.foo.js")
+    })
+  })
+
+  describe.only("padPath()", () => {
+    it("works", () => {
+      eq(P.padPath(2, "1.folder/file.1.md"), "01.folder/file.01.md")
+    })
+  })
 })

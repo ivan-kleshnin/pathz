@@ -7,6 +7,7 @@ R.drop = require("ramda/src/drop")
 R.dropLast = require("ramda/src/dropLast")
 R.join = require("ramda/src/join")
 R.last = require("ramda/src/last")
+R.map = require("ramda/src/map")
 R.merge = require("ramda/src/merge")
 R.pipe = require("ramda/src/pipe")
 R.replace = require("ramda/src/replace")
@@ -156,6 +157,16 @@ let dropBase = withBase("")
 
 let dropExt = withExt("")
 
+let padNumeric = R.curry((w, s) => {
+  return isNaN(Number(s))
+    ? s
+    : s.padStart(w, "0")
+})
+
+let padName = R.curry((w, s) => R.pipe(R.split("."), R.map(padNumeric(w)), R.join("."))(s))
+
+let padPath = R.curry((w, s) => R.pipe(R.split(P.sep), R.map(padName(w)), R.join(P.sep))(s))
+
 exports.ensureDir = ensureDir
 exports.ltrimPath = ltrimPath
 exports.rtrimPath = rtrimPath
@@ -190,20 +201,6 @@ exports.normalize = P.normalize
 exports.relative = P.relative
 exports.resolve = P.resolve
 
-/*
-Full original API commented:
-* delimiter – low-level, import directly
-* posix – low-level, import directly
-* sep – low-level, import directly
-* win32 – low-level, import directly
-* basename – wrapped, use P.base instead
-* dirname – wrapped, use P.dir instead
-* extname – wrapped, use P.ext instead
-* format – wrapped, use P helpers instead
-* parse – wrapped, use P helpers instead
-* isAbsolute – reexported
-* join – reexported
-* normalize – reexported
-* relative – reexported
-* resolve – reexported
-*/
+exports.padNumeric = padNumeric
+exports.padName = padName
+exports.padPath = padPath
