@@ -222,31 +222,23 @@ P.dropExt("foo/bar/index.html") // "foo/bar/index"
 P.dropExt(".gitignore")         // ".gitignore"
 ```
 
-#### `pad :: String -> Number -> String`
-
-```js
-pad("x", 4, "x") // "xxxx"
-pad("0", 4, "x") // "000x"
-pad("x", 1, "x") // "x"
-```
-
 #### `padNumeric :: Number -> String`
 
 ```js
-padNumeric(4, "x") // "x"
-padNumeric(4, "1") // "0001"
+P.padNumeric(4, "x") // "x"
+P.padNumeric(4, "1") // "0001"
 ```
 
 #### `padName :: Number -> String`
 
 ```js
-padName(2, "1.1.foo.js") // "01.01.foo.js"
+P.padName(2, "1.1.foo.js") // "01.01.foo.js"
 ```
 
 #### `padPath :: Number -> String`
 
 ```js
-padPath(2, "1.folder/file.1.md") // "01.folder/file.01.md"
+P.padPath(2, "1.folder/file.1.md") // "01.folder/file.01.md"
 ```
 
 ## Original API
