@@ -1,6 +1,6 @@
 {
   "name": "path-extra",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Functional API to work with FS paths (NodeJS Path rethinked)",
   "main": "index.js",
   "scripts": {
@@ -19,8 +19,8 @@
     "path"
   ],
   "license": "MIT",
-  "engines" : {
-    "node" : ">=8.0.0"
+  "engines": {
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "ramda": "0.23.x"
