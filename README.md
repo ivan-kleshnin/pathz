@@ -1,4 +1,4 @@
-# Path Extra
+# Pathz
 
 Functional utils for FS paths. Drop-in [NodeJS Path](https://nodejs.org/api/path.html) replacement.
 
@@ -12,9 +12,9 @@ Functional utils for FS paths. Drop-in [NodeJS Path](https://nodejs.org/api/path
 ```js
 let R = require("ramda")
 let PP = require("path")
-let P = require("path-extra")
+let P = require("pathz")
 
-// Like in original Path there are:
+// Like in original PP there are:
 //   P.posix.* – POSIX helpers
 //   P.win32.* – WIN helpers
 //   P.*       – (current) platform helpers
@@ -22,9 +22,9 @@ let P = require("path-extra")
 
 ## Motivation
 
-#### 1. Path.format / Path.parse are quite low-level
+#### 1. Original Path `format` / `parse` are quite low-level
 
-#### 2. Path-Extra respects trailing OS sep
+#### 2. Pathz respects trailing OS sep
 
 ```js
 console.log(PP.dirname("/foo/bar/")) // "/foo"
@@ -34,17 +34,17 @@ console.log(PP.basename("/foo/bar/")) // "bar"
 console.log(P.base("/foo/bar/"))      // ""
 ```
 
-#### 3. Path-Extra respects "relativeness" and "absoluteness" of paths
+#### 3. Pathz respects "relativeness" and "absoluteness" of paths
 
 ```js
 console.log(P.addLeftDir("bar", "/foo.txt"))  // "/bar/foo.txt" (+)
-console.log(PP.join("bar", "/foo.txt"))       // "bar/foo.txt"  (-)
+console.log(PP.join("bar", "/foo.txt"))       // "bar/foo.txt"  (-) naive
 
 console.log(P.addRightDir("bar", "/foo.txt")) // "/bar/foo.txt" (+)
-console.log(PP.join("/foo.txt", "bar"))       // "/foo.txt/bar" (-)
+console.log(PP.join("/foo.txt", "bar"))       // "/foo.txt/bar" (-) naive
 ```
 
-#### 4. Path-Extra is composition friendly
+#### 4. Pathz is composition friendly
 
 ```js
 let R = require("ramda")
@@ -60,7 +60,7 @@ console.log(dst) // "public/team/about/index.html"
                  // corresponding to "/team/about/" URL
 ```
 
-#### 5. Path-Extra is CRUD for path fragments
+#### 5. Pathz is like CRUD for path fragments
 
 ```js
 // GET
@@ -78,7 +78,7 @@ console.log(P.dropRightDir("/foo/bar/baz.txt")) // "/foo/baz.txt"
 // ...
 ```
 
-#### 6. Extra utils
+#### 6. Pathz has extra utils
 
 ```js
 R.sortBy(P.padPath(2))([
