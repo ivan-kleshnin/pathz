@@ -23,7 +23,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "ramda": "0.23.x"
+    "ramda": "0.24.x"
   },
   "devDependencies": {
     "mocha": "^3.2.0"
