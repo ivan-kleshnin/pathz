@@ -100,9 +100,11 @@ R.sortBy(P.padPath(2))([
 npm install pathz
 ```
 
-Peer dependencies:
+Dependencies (auto-installs):
 * [`ramda`](http://ramdajs.com/)
-* [`path`](https://nodejs.org/api/path) (need special bundling for browsers)
+
+Peer dependencies (expects):
+* [`path`](https://nodejs.org/api/path)
 
 ## API
 
