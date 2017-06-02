@@ -24,6 +24,24 @@ describe("index.js", () => {
       })
     })
 
+    describe("splitDirs()", () => {
+      it("gets the dirs for a relative file path", () => {
+        eq(P1.splitDirs("foo/bar/baz.txt"), ["foo", "bar"])
+      })
+
+      it("gets the dirs for a relative dir path", () => {
+        eq(P1.splitDirs("foo/bar/"), ["foo", "bar"])
+      })
+
+      it("gets the dirs for an absolute file path", () => {
+        eq(P1.splitDirs("/foo/bar/baz.txt"), ["foo", "bar"])
+      })
+
+      it("gets the dirs for an absolute dir path", () => {
+        eq(P1.splitDirs("/foo/bar/"), ["foo", "bar"])
+      })
+    })
+
     describe("base()", () => {
       it("gets the base for a relative file path", () => {
         eq(P1.base("foo/bar/baz.txt"), "baz.txt")
@@ -75,6 +93,62 @@ describe("index.js", () => {
 
       it("gets the righmost dir for an absolute dir path", () => {
         eq(P1.rightDir("/foo/bar/baz/"), "baz")
+      })
+    })
+
+    describe("leftDirs()", () => {
+      it("gets at most N left dirs for relative file paths", () => {
+        eq(P1.leftDirs(1, "foo/bar/baz.txt"), "foo")
+        eq(P1.leftDirs(2, "foo/bar/baz.txt"), "foo/bar")
+        eq(P1.leftDirs(3, "foo/bar/baz.txt"), "foo/bar")
+      })
+
+      it("gets at most N left dirs for relative dir paths", () => {
+        eq(P1.leftDirs(1, "foo/bar/baz/"), "foo")
+        eq(P1.leftDirs(2, "foo/bar/baz/"), "foo/bar")
+        eq(P1.leftDirs(3, "foo/bar/baz/"), "foo/bar/baz")
+        eq(P1.leftDirs(4, "foo/bar/baz/"), "foo/bar/baz")
+      })
+
+      it("gets at most N left dirs for absolute file paths", () => {
+        eq(P1.leftDirs(1, "/foo/bar/baz.txt"), "foo")
+        eq(P1.leftDirs(2, "/foo/bar/baz.txt"), "foo/bar")
+        eq(P1.leftDirs(3, "/foo/bar/baz.txt"), "foo/bar")
+      })
+
+      it("gets at most N left dirs for absolute dir paths", () => {
+        eq(P1.leftDirs(1, "/foo/bar/baz/"), "foo")
+        eq(P1.leftDirs(2, "/foo/bar/baz/"), "foo/bar")
+        eq(P1.leftDirs(3, "/foo/bar/baz/"), "foo/bar/baz")
+        eq(P1.leftDirs(4, "/foo/bar/baz/"), "foo/bar/baz")
+      })
+    })
+
+    describe("rightDirs()", () => {
+      it("gets at most N right dirs for relative file paths", () => {
+        eq(P1.rightDirs(1, "foo/bar/baz.txt"), "bar")
+        eq(P1.rightDirs(2, "foo/bar/baz.txt"), "foo/bar")
+        eq(P1.rightDirs(3, "foo/bar/baz.txt"), "foo/bar")
+      })
+
+      it("gets at most N right dirs for relative dir paths", () => {
+        eq(P1.rightDirs(1, "foo/bar/baz/"), "baz")
+        eq(P1.rightDirs(2, "foo/bar/baz/"), "bar/baz")
+        eq(P1.rightDirs(3, "foo/bar/baz/"), "foo/bar/baz")
+        eq(P1.rightDirs(4, "foo/bar/baz/"), "foo/bar/baz")
+      })
+
+      it("gets at most N right dirs for absolute file paths", () => {
+        eq(P1.rightDirs(1, "/foo/bar/baz.txt"), "bar")
+        eq(P1.rightDirs(2, "/foo/bar/baz.txt"), "foo/bar")
+        eq(P1.rightDirs(3, "/foo/bar/baz.txt"), "foo/bar")
+      })
+
+      it("gets at most N right dirs for absolute dir paths", () => {
+        eq(P1.rightDirs(1, "/foo/bar/baz/"), "baz")
+        eq(P1.rightDirs(2, "/foo/bar/baz/"), "bar/baz")
+        eq(P1.rightDirs(3, "/foo/bar/baz/"), "foo/bar/baz")
+        eq(P1.rightDirs(4, "/foo/bar/baz/"), "foo/bar/baz")
       })
     })
 
@@ -333,6 +407,24 @@ describe("index.js", () => {
       })
     })
 
+    describe("splitDirs()", () => {
+      it("gets the dirs for a relative file path", () => {
+        eq(P2.splitDirs("foo\\bar\\baz.txt"), ["foo", "bar"])
+      })
+
+      it("gets the dirs for a relative dir path", () => {
+        eq(P2.splitDirs("foo\\bar\\"), ["foo", "bar"])
+      })
+
+      it("gets the dirs for an absolute file path", () => {
+        eq(P2.splitDirs("\\foo\\bar\\baz.txt"), ["foo", "bar"])
+      })
+
+      it("gets the dirs for an absolute dir path", () => {
+        eq(P2.splitDirs("\\foo\\bar\\"), ["foo", "bar"])
+      })
+    })
+
     describe("base()", () => {
       it("gets the base for a relative file path", () => {
         eq(P2.base("foo\\bar\\baz.txt"), "baz.txt")
@@ -384,6 +476,62 @@ describe("index.js", () => {
 
       it("gets the righmost dir for an absolute dir path", () => {
         eq(P2.rightDir("C:\\foo\\bar\\baz\\"), "baz")
+      })
+    })
+
+    describe("leftDirs()", () => {
+      it("gets at most N left dirs for relative file paths", () => {
+        eq(P2.leftDirs(1, "foo\\bar\\baz.txt"), "foo")
+        eq(P2.leftDirs(2, "foo\\bar\\baz.txt"), "foo\\bar")
+        eq(P2.leftDirs(3, "foo\\bar\\baz.txt"), "foo\\bar")
+      })
+
+      it("gets at most N left dirs for relative dir paths", () => {
+        eq(P2.leftDirs(1, "foo\\bar\\baz\\"), "foo")
+        eq(P2.leftDirs(2, "foo\\bar\\baz\\"), "foo\\bar")
+        eq(P2.leftDirs(3, "foo\\bar\\baz\\"), "foo\\bar\\baz")
+        eq(P2.leftDirs(4, "foo\\bar\\baz\\"), "foo\\bar\\baz")
+      })
+
+      it("gets at most N left dirs for absolute file paths", () => {
+        eq(P2.leftDirs(1, "C:\\foo\\bar\\baz.txt"), "foo")
+        eq(P2.leftDirs(2, "C:\\foo\\bar\\baz.txt"), "foo\\bar")
+        eq(P2.leftDirs(3, "C:\\foo\\bar\\baz.txt"), "foo\\bar")
+      })
+
+      it("gets at most N left dirs for absolute dir paths", () => {
+        eq(P2.leftDirs(1, "C:\\foo\\bar\\baz\\"), "foo")
+        eq(P2.leftDirs(2, "C:\\foo\\bar\\baz\\"), "foo\\bar")
+        eq(P2.leftDirs(3, "C:\\foo\\bar\\baz\\"), "foo\\bar\\baz")
+        eq(P2.leftDirs(4, "C:\\foo\\bar\\baz\\"), "foo\\bar\\baz")
+      })
+    })
+
+    describe("rightDirs()", () => {
+      it("gets at most N right dirs for relative file paths", () => {
+        eq(P2.rightDirs(1, "foo\\bar\\baz.txt"), "bar")
+        eq(P2.rightDirs(2, "foo\\bar\\baz.txt"), "foo\\bar")
+        eq(P2.rightDirs(3, "foo\\bar\\baz.txt"), "foo\\bar")
+      })
+
+      it("gets at most N right dirs for relative dir paths", () => {
+        eq(P2.rightDirs(1, "foo\\bar\\baz\\"), "baz")
+        eq(P2.rightDirs(2, "foo\\bar\\baz\\"), "bar\\baz")
+        eq(P2.rightDirs(3, "foo\\bar\\baz\\"), "foo\\bar\\baz")
+        eq(P2.rightDirs(4, "foo\\bar\\baz\\"), "foo\\bar\\baz")
+      })
+
+      it("gets at most N right dirs for absolute file paths", () => {
+        eq(P2.rightDirs(1, "C:\\foo\\bar\\baz.txt"), "bar")
+        eq(P2.rightDirs(2, "C:\\foo\\bar\\baz.txt"), "foo\\bar")
+        eq(P2.rightDirs(3, "C:\\foo\\bar\\baz.txt"), "foo\\bar")
+      })
+
+      it("gets at most N right dirs for absolute dir paths", () => {
+        eq(P2.rightDirs(1, "C:\\foo\\bar\\baz\\"), "baz")
+        eq(P2.rightDirs(2, "C:\\foo\\bar\\baz\\"), "bar\\baz")
+        eq(P2.rightDirs(3, "C:\\foo\\bar\\baz\\"), "foo\\bar\\baz")
+        eq(P2.rightDirs(4, "C:\\foo\\bar\\baz\\"), "foo\\bar\\baz")
       })
     })
 

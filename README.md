@@ -7,7 +7,7 @@ Functional utils for FS paths. Drop-in [NodeJS Path](https://nodejs.org/api/path
 * High-level path manipulations
 * Curried composable API
 * Crossplatform
-* 134+ tests
+* 150+ tests
 
 ```js
 let R = require("ramda")
@@ -111,8 +111,17 @@ Peer dependencies (expects):
 #### `dir :: String -> String`
 
 ```js
-P.dir("foo/bar/baz.txt") // "foo/bar/" (P.dirname + "/")
-P.dir("foo/bar/")        // "foo/bar/" (identity)
+P.dir("foo/bar/baz.txt")  // "foo/bar/" (P.dirname + "/")
+P.dir("foo/bar/")         // "foo/bar/" (identity)
+P.dir("/foo/bar/baz.txt") // "/foo/bar/" (P.dirname + "/")
+P.dir("/foo/bar/")        // "/foo/bar/" (identity)
+```
+
+#### `splitDirs :: String -> [String]`
+
+```js
+P.splitDirs("foo/bar/baz.txt")  // ["foo", "bar"]
+P.splitDirs("/foo/bar/")        // ["foo", "bar"]
 ```
 
 #### `base :: String -> String`
@@ -150,6 +159,24 @@ P.leftDir("foo/")               // "foo"
 P.rightDir("foo/bar/index.html") // "bar"
 P.rightDir("foo")                // ""
 P.rightDir("foo/")               // "foo"
+```
+
+#### `leftDirs :: Number -> String -> String`
+
+```js
+P.leftDirs(1) == P.leftDir
+P.leftDirs(2, "foo/bar/baz/qux.txt")  // "foo/bar"
+P.leftDirs(3, "foo/bar/baz/qux.txt")  // "foo/bar/baz"
+P.leftDirs(4, "/foo/bar/baz/qux.txt") // "foo/bar/baz"
+```
+
+#### `rightDirs :: Number -> String -> String`
+
+```js
+P.rightDirs(1) == P.rightDir
+P.rightDirs(2, "foo/bar/baz/qux.txt")  // "bar/baz"
+P.rightDirs(3, "foo/bar/baz/qux.txt")  // "foo/bar/baz"
+P.rightDirs(4, "/foo/bar/baz/qux.txt") // "foo/bar/baz"
 ```
 
 #### `addLeftDir :: String -> String -> String`

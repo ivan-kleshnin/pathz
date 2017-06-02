@@ -1,10 +1,12 @@
 // Some hacks until a proper tree shaking comes
 let R = {}
+R.identity = require("ramda/src/identity")
 R.head = require("ramda/src/head")
 R.concat = require("ramda/src/concat")
 R.curry = require("ramda/src/curry")
 R.drop = require("ramda/src/drop")
 R.dropLast = require("ramda/src/dropLast")
+R.filter = require("ramda/src/filter")
 R.join = require("ramda/src/join")
 R.last = require("ramda/src/last")
 R.map = require("ramda/src/map")
@@ -12,6 +14,8 @@ R.merge = require("ramda/src/merge")
 R.pipe = require("ramda/src/pipe")
 R.replace = require("ramda/src/replace")
 R.split = require("ramda/src/split")
+R.take = require("ramda/src/take")
+R.takeLast = require("ramda/src/takeLast")
 let P = require("path")
 
 RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -44,6 +48,11 @@ let makeHelpers = (P) => {
     return path.endsWith(P.sep) ? path : P.dirname(path) + P.sep
   }
 
+  let splitDirs = (path) => {
+    let obj = parse(path)
+    return R.split(P.sep, trimPath(obj.root, obj.dir))
+  }
+
   let base = (path) => {
     return path.endsWith(P.sep) ? "" : P.basename(path)
   }
@@ -56,23 +65,13 @@ let makeHelpers = (P) => {
     return withName("", base(path))
   }
 
-  let leftDir = (path) => {
-    let obj = parse(path)
-    return R.pipe(
-      trimPath(obj.root),
-      R.split(P.sep),
-      R.head
-    )(obj.dir)
-  }
+  let leftDirs = R.curry((n, path) => R.join(P.sep, R.take(n, splitDirs(path))))
 
-  let rightDir = (path) => {
-    let obj = parse(path)
-    return R.pipe(
-      trimPath(obj.root),
-      R.split(P.sep),
-      R.last
-    )(obj.dir)
-  }
+  let leftDir = leftDirs(1)
+
+  let rightDirs = R.curry((n, path) => R.join(P.sep, R.takeLast(n, splitDirs(path))))
+
+  let rightDir = rightDirs(1)
 
   let addLeftDir = R.curry((leftDir, path) => {
     let obj = parse(path)
@@ -189,11 +188,14 @@ let makeHelpers = (P) => {
     format,
 
     dir,
+    splitDirs,
     base,
     name,
     ext,
     leftDir,
     rightDir,
+    leftDirs,
+    rightDirs,
     addLeftDir,
     addRightDir,
     dropLeftDir,
@@ -230,11 +232,14 @@ exports.parse = helpers.parse
 exports.format = helpers.format
 
 exports.dir = helpers.dir
+exports.splitDirs = helpers.splitDirs
 exports.base = helpers.base
 exports.name = helpers.name
 exports.ext = helpers.ext
 exports.leftDir = helpers.leftDir
 exports.rightDir = helpers.rightDir
+exports.leftDirs = helpers.leftDirs
+exports.rightDirs = helpers.rightDirs
 
 exports.addLeftDir = helpers.addLeftDir
 exports.addRightDir = helpers.addRightDir
