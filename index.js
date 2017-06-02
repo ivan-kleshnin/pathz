@@ -14,193 +14,251 @@ R.replace = require("ramda/src/replace")
 R.split = require("ramda/src/split")
 let P = require("path")
 
-let ensureDir = (path) => path.endsWith(P.sep) ? path : path + P.sep
+RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
-let ltrimPath = R.curry((root, path) => R.replace(new RegExp(`^${root}`), "", path))
+let makeHelpers = (P) => {
+  let ensureDir = (path) => path.endsWith(P.sep) ? path : path + P.sep
 
-let rtrimPath = R.replace(new RegExp(`${P.sep}$`), "")
+  let ltrimPath = R.curry((root, path) => R.replace(new RegExp(`^${RegExp.escape(root)}`), "", path))
 
-let trimPath = R.curry((root, path) => R.pipe(ltrimPath(root), rtrimPath)(path))
+  let rtrimPath = R.replace(new RegExp(`${RegExp.escape(P.sep)}$`), "")
 
-let parse = (path) => {
-  let obj = P.parse(path)
-  if (path.endsWith(P.sep)) {
-    obj.dir = P.join(obj.dir, obj.base)
-    obj.base = ""
-    obj.name = ""
+  let trimPath = R.curry((root, path) => R.pipe(ltrimPath(root), rtrimPath)(path))
+
+  let parse = (path) => {
+    let obj = P.parse(path)
+    if (path.endsWith(P.sep)) {
+      obj.dir = P.join(obj.dir, obj.base)
+      obj.base = ""
+      obj.name = ""
+    }
+    obj.dir = ensureDir(obj.dir)
+    return obj
   }
-  obj.dir = ensureDir(obj.dir)
-  return obj
-}
 
-let format = (obj) => {
-  return P.format(R.merge(obj, {dir: rtrimPath(obj.dir)}))
-}
+  let format = (obj) => {
+    return P.format(R.merge(obj, {dir: rtrimPath(obj.dir)}))
+  }
 
-let dir = (path) => {
-  return path.endsWith(P.sep) ? path : P.dirname(path) + P.sep
-}
+  let dir = (path) => {
+    return path.endsWith(P.sep) ? path : P.dirname(path) + P.sep
+  }
 
-let base = (path) => {
-  return path.endsWith(P.sep) ? "" : P.basename(path)
-}
+  let base = (path) => {
+    return path.endsWith(P.sep) ? "" : P.basename(path)
+  }
 
-let name = (path) => {
-  return withExt("", base(path))
-}
+  let name = (path) => {
+    return withExt("", base(path))
+  }
 
-let ext = (path) => {
-  return withName("", base(path))
-}
+  let ext = (path) => {
+    return withName("", base(path))
+  }
 
-let leftDir = (path) => {
-  let obj = parse(path)
-  return R.pipe(
-    trimPath(obj.root),
-    R.split(P.sep),
-    R.head
-  )(obj.dir)
-}
+  let leftDir = (path) => {
+    let obj = parse(path)
+    return R.pipe(
+      trimPath(obj.root),
+      R.split(P.sep),
+      R.head
+    )(obj.dir)
+  }
 
-let rightDir = (path) => {
-  let obj = parse(path)
-  return R.pipe(
-    trimPath(obj.root),
-    R.split(P.sep),
-    R.last
-  )(obj.dir)
-}
+  let rightDir = (path) => {
+    let obj = parse(path)
+    return R.pipe(
+      trimPath(obj.root),
+      R.split(P.sep),
+      R.last
+    )(obj.dir)
+  }
 
-let addLeftDir = R.curry((leftDir, path) => {
-  let obj = parse(path)
-  return format({
-    dir: obj.root + P.join(leftDir, obj.dir),
-    base: obj.base,
+  let addLeftDir = R.curry((leftDir, path) => {
+    let obj = parse(path)
+    let newDir = R.pipe(
+      trimPath(obj.root),
+      (dir) => P.join(leftDir, dir),
+      R.concat(obj.root)
+    )(obj.dir)
+    return format({
+      dir: newDir,
+      base: obj.base,
+    })
   })
-})
 
-let addRightDir = R.curry((rightDir, path) => {
-  let obj = parse(path)
-  return format({
-    dir:  P.join(obj.dir, rightDir),
-    base: obj.base,
+  let addRightDir = R.curry((rightDir, path) => {
+    let obj = parse(path)
+    let newDir = R.pipe(
+      trimPath(obj.root),
+      (dir) => P.join(dir, rightDir),
+      R.concat(obj.root)
+    )(obj.dir)
+    return format({
+      dir: newDir,
+      base: obj.base,
+    })
   })
-})
 
-let dropLeftDir = (path) => {
-  let obj = parse(path)
-  let newDir = R.pipe(
-    trimPath(obj.root),
-    R.split(P.sep),
-    R.drop(1),
-    R.join(P.sep),
-    R.concat(obj.root)
-  )(obj.dir)
-  return format({
-    dir: newDir,
-    base: obj.base,
+  let dropLeftDir = (path) => {
+    let obj = parse(path)
+    let newDir = R.pipe(
+      trimPath(obj.root),
+      R.split(P.sep),
+      R.drop(1),
+      R.join(P.sep),
+      R.concat(obj.root)
+    )(obj.dir)
+    return format({
+      dir: newDir,
+      base: obj.base,
+    })
+  }
+
+  let dropRightDir = (path) => {
+    let obj = parse(path)
+    let newDir = R.pipe(
+      trimPath(obj.root),
+      R.split(P.sep),
+      R.dropLast(1),
+      R.join(P.sep),
+      R.concat(obj.root)
+    )(obj.dir)
+    return format({
+      dir: newDir,
+      base: obj.base,
+    })
+  }
+
+  let withLeftDir = R.curry((leftDir, path) => R.pipe(dropLeftDir, addLeftDir(leftDir))(path))
+
+  let withRightDir = R.curry((rightDir, path) => R.pipe(dropRightDir, addRightDir(rightDir))(path))
+
+  let withDir = R.curry((dir, path) => {
+    let obj = parse(path)
+    return format({
+      dir: obj.root + dir,
+      base: obj.base,
+    })
   })
-}
 
-let dropRightDir = (path) => {
-  let obj = parse(path)
-  let newDir = R.pipe(
-    trimPath(obj.root),
-    R.split(P.sep),
-    R.dropLast(1),
-    R.join(P.sep),
-    R.concat(obj.root)
-  )(obj.dir)
-  return format({
-    dir: newDir,
-    base: obj.base,
+  let withBase = R.curry((base, path) => {
+    let obj = parse(path)
+    return format({
+      dir: obj.dir,
+      base,
+    })
   })
-}
 
-let withLeftDir = R.curry((leftDir, path) => R.pipe(dropLeftDir, addLeftDir(leftDir))(path))
-
-let withRightDir = R.curry((rightDir, path) => R.pipe(dropRightDir, addRightDir(rightDir))(path))
-
-let withDir = R.curry((dir, path) => {
-  let obj = parse(path)
-  return format({
-    dir: obj.root + dir,
-    base: obj.base,
+  let withName = R.curry((name, path) => {
+    let obj = parse(path)
+    return format({
+      dir: obj.dir,
+      base: name + obj.ext,
+    })
   })
-})
 
-let withBase = R.curry((base, path) => {
-  let obj = parse(path)
-  return format({
-    dir: obj.dir,
+  let withExt = R.curry((ext, path) => {
+    let obj = parse(path)
+    return format({
+      dir: obj.dir,
+      base: obj.name + ext,
+    })
+  })
+
+  let dropBase = withBase("")
+
+  let dropExt = withExt("")
+
+  let padNumeric = R.curry((w, s) => {
+    return isNaN(Number(s))
+      ? s
+      : s.padStart(w, "0")
+  })
+
+  let padName = R.curry((w, s) => R.pipe(R.split("."), R.map(padNumeric(w)), R.join("."))(s))
+
+  let padPath = R.curry((w, s) => R.pipe(R.split(P.sep), R.map(padName(w)), R.join(P.sep))(s))
+
+  return {
+    ensureDir,
+    ltrimPath,
+    rtrimPath,
+    trimPath,
+    parse,
+    format,
+
+    dir,
     base,
-  })
-})
+    name,
+    ext,
+    leftDir,
+    rightDir,
+    addLeftDir,
+    addRightDir,
+    dropLeftDir,
+    dropRightDir,
+    dropBase,
+    dropExt,
 
-let withName = R.curry((name, path) => {
-  let obj = parse(path)
-  return format({
-    dir: obj.dir,
-    base: name + obj.ext,
-  })
-})
+    withDir,
+    withBase,
+    withName,
+    withExt,
+    withLeftDir,
+    withRightDir,
 
-let withExt = R.curry((ext, path) => {
-  let obj = parse(path)
-  return format({
-    dir: obj.dir,
-    base: obj.name + ext,
-  })
-})
+    isAbsolute: P.isAbsolute,
+    join: P.join,
+    normalize: P.normalize,
+    relative: P.relative,
+    resolve: P.resolve,
 
-let dropBase = withBase("")
+    padNumeric,
+    padName,
+    padPath,
+  }
+}
 
-let dropExt = withExt("")
+let helpers = makeHelpers(P)
 
-let padNumeric = R.curry((w, s) => {
-  return isNaN(Number(s))
-    ? s
-    : s.padStart(w, "0")
-})
+exports.ensureDir = helpers.ensureDir
+exports.ltrimPath = helpers.ltrimPath
+exports.rtrimPath = helpers.rtrimPath
+exports.trimPath = helpers.trimPath
+exports.parse = helpers.parse
+exports.format = helpers.format
 
-let padName = R.curry((w, s) => R.pipe(R.split("."), R.map(padNumeric(w)), R.join("."))(s))
+exports.dir = helpers.dir
+exports.base = helpers.base
+exports.name = helpers.name
+exports.ext = helpers.ext
+exports.leftDir = helpers.leftDir
+exports.rightDir = helpers.rightDir
 
-let padPath = R.curry((w, s) => R.pipe(R.split(P.sep), R.map(padName(w)), R.join(P.sep))(s))
+exports.addLeftDir = helpers.addLeftDir
+exports.addRightDir = helpers.addRightDir
+exports.dropLeftDir = helpers.dropLeftDir
+exports.dropRightDir = helpers.dropRightDir
+exports.dropBase = helpers.dropBase
+exports.dropExt = helpers.dropExt
 
-exports.ensureDir = ensureDir
-exports.ltrimPath = ltrimPath
-exports.rtrimPath = rtrimPath
-exports.trimPath = trimPath
-exports.parse = parse
-exports.format = format
+exports.withDir = helpers.withDir
+exports.withBase = helpers.withBase
+exports.withName = helpers.withName
+exports.withExt = helpers.withExt
+exports.withLeftDir = helpers.withLeftDir
+exports.withRightDir = helpers.withRightDir
 
-exports.dir = dir
-exports.base = base
-exports.name = name
-exports.ext = ext
-exports.leftDir = leftDir
-exports.rightDir = rightDir
+exports.isAbsolute = helpers.isAbsolute
+exports.join = helpers.join
+exports.normalize = helpers.normalize
+exports.relative = helpers.relative
+exports.resolve = helpers.resolve
 
-exports.addLeftDir = addLeftDir
-exports.addRightDir = addRightDir
-exports.dropLeftDir = dropLeftDir
-exports.dropRightDir = dropRightDir
-exports.dropBase = dropBase
-exports.dropExt = dropExt
+exports.padNumeric = helpers.padNumeric
+exports.padName = helpers.padName
+exports.padPath = helpers.padPath
 
-exports.withDir = withDir
-exports.withBase = withBase
-exports.withName = withName
-exports.withExt = withExt
-exports.withLeftDir = withLeftDir
-exports.withRightDir = withRightDir
-
-exports.isAbsolute = P.isAbsolute
-exports.join = P.join
-exports.normalize = P.normalize
-exports.relative = P.relative
-exports.resolve = P.resolve
-
-exports.padNumeric = padNumeric
-exports.padName = padName
-exports.padPath = padPath
+exports.posix = makeHelpers(P.posix)
+exports.win32 = makeHelpers(P.win32)

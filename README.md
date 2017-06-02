@@ -7,14 +7,19 @@ Functional utils for FS paths. Drop-in [NodeJS Path](https://nodejs.org/api/path
 * High-level path manipulations
 * Curried composable API
 * Crossplatform
-* 64+ tests
-
-## Motivation
+* 134+ tests
 
 ```js
 let PP = require("path")
 let P = require("path-extra")
+
+// Like in original Path there are:
+//   P.posix.* – POSIX helpers
+//   P.win32.* – WIN helpers
+//   P.*       – (current) platform helpers
 ```
+
+## Motivation
 
 #### 1. Path.format / Path.parse are quite low-level
 
