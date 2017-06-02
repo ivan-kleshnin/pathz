@@ -1,6 +1,6 @@
 {
   "name": "pathz",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Functional utils for FS paths",
   "main": "index.js",
   "scripts": {
