@@ -10,6 +10,7 @@ Functional utils for FS paths. Drop-in [NodeJS Path](https://nodejs.org/api/path
 * 134+ tests
 
 ```js
+let R = require("ramda")
 let PP = require("path")
 let P = require("path-extra")
 
@@ -77,23 +78,31 @@ console.log(P.dropRightDir("/foo/bar/baz.txt")) // "/foo/baz.txt"
 // ...
 ```
 
-## Install
+#### 6. Extra utils
 
-No NPM for now (name choice in progress).
+```js
+R.sortBy(P.padPath(2))([
+  "foo/bar/11.1/2.1",
+  "foo/bar/2.1/10.1",
+  "foo/bar/10.1/2.1",
+  "foo/bar/2.1/2.1",
+])
 
-```json
-// package.json
-{
-  "dependencies": {
-    "path-extra": "https://github.com/ivan-kleshnin/path-extra"
-  }
-}
+// [ 'foo/bar/2.1/2.1',
+//   'foo/bar/2.1/10.1',
+//   'foo/bar/10.1/2.1',
+//   'foo/bar/11.1/2.1' ]
 ```
 
-### Peer dependencies
+## Install
 
-* [NodeJS stdlib](https://nodejs.org/api/)
-* [RamdaJS](http://ramdajs.com/)
+```
+npm install pathz
+```
+
+Peer dependencies:
+* [`ramda`](http://ramdajs.com/)
+* [`path`](https://nodejs.org/api/path) (need special bundling for browsers)
 
 ## API
 

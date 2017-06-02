@@ -12,7 +12,7 @@ R.merge = require("ramda/src/merge")
 R.pipe = require("ramda/src/pipe")
 R.replace = require("ramda/src/replace")
 R.split = require("ramda/src/split")
-let P = require("path")
+let P = require("pathz")
 
 RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
