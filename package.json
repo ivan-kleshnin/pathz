@@ -1,13 +1,10 @@
 {
   "name": "pathz",
-  "version": "0.7.0",
   "description": "Functional utils for FS paths",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha tests/ --recursive"
-  },
+  "version": "0.7.0",
   "author": "Ivan Kleshnin <ivan@paqmind.com> (paqmind.com)",
-  "homepage": "https://github.com/ivan-kleshnin/pathz",
+  "license": "MIT",
+  "bugs": "https://github.com/ivan-kleshnin/pathz/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/ivan-kleshnin/pathz"
@@ -18,14 +15,26 @@
     "file system",
     "path"
   ],
-  "license": "MIT",
+  "main": "lib/index.js",
+  "peerDependencies": {
+    "@paqmind/ramda": "*"
+  },
+  "devDependencies": {
+    "@paqmind/ramda": "*",
+    "mocha": "^3.2.0"
+  },
   "engines": {
     "node": ">=8.0.0"
   },
-  "dependencies": {
-    "ramda": "0.24.x"
+  "scripts": {
+    "prebuild": "rm -rf lib && mkdir -p lib",
+    "build": "babel src/ -d lib/",
+    "prepare": "npm run build",
+    "test": "mocha tests/ --recursive"
   },
-  "devDependencies": {
-    "mocha": "^3.2.0"
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   }
 }

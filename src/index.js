@@ -1,22 +1,5 @@
-// Some hacks until a proper tree shaking comes
-let R = {}
-R.identity = require("ramda/src/identity")
-R.head = require("ramda/src/head")
-R.concat = require("ramda/src/concat")
-R.curry = require("ramda/src/curry")
-R.drop = require("ramda/src/drop")
-R.dropLast = require("ramda/src/dropLast")
-R.filter = require("ramda/src/filter")
-R.join = require("ramda/src/join")
-R.last = require("ramda/src/last")
-R.map = require("ramda/src/map")
-R.merge = require("ramda/src/merge")
-R.pipe = require("ramda/src/pipe")
-R.replace = require("ramda/src/replace")
-R.split = require("ramda/src/split")
-R.take = require("ramda/src/take")
-R.takeLast = require("ramda/src/takeLast")
-let P = require("path")
+import * as R from "@paqmind/ramda"
+import P from "path"
 
 RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
@@ -224,46 +207,46 @@ let makeHelpers = (P) => {
 
 let helpers = makeHelpers(P)
 
-exports.ensureDir = helpers.ensureDir
-exports.ltrimPath = helpers.ltrimPath
-exports.rtrimPath = helpers.rtrimPath
-exports.trimPath = helpers.trimPath
-exports.parse = helpers.parse
-exports.format = helpers.format
+export let ensureDir = helpers.ensureDir
+export let ltrimPath = helpers.ltrimPath
+export let rtrimPath = helpers.rtrimPath
+export let trimPath = helpers.trimPath
+export let parse = helpers.parse
+export let format = helpers.format
 
-exports.dir = helpers.dir
-exports.splitDirs = helpers.splitDirs
-exports.base = helpers.base
-exports.name = helpers.name
-exports.ext = helpers.ext
-exports.leftDir = helpers.leftDir
-exports.rightDir = helpers.rightDir
-exports.leftDirs = helpers.leftDirs
-exports.rightDirs = helpers.rightDirs
+export let dir = helpers.dir
+export let splitDirs = helpers.splitDirs
+export let base = helpers.base
+export let name = helpers.name
+export let ext = helpers.ext
+export let leftDir = helpers.leftDir
+export let rightDir = helpers.rightDir
+export let leftDirs = helpers.leftDirs
+export let rightDirs = helpers.rightDirs
 
-exports.addLeftDir = helpers.addLeftDir
-exports.addRightDir = helpers.addRightDir
-exports.dropLeftDir = helpers.dropLeftDir
-exports.dropRightDir = helpers.dropRightDir
-exports.dropBase = helpers.dropBase
-exports.dropExt = helpers.dropExt
+export let addLeftDir = helpers.addLeftDir
+export let addRightDir = helpers.addRightDir
+export let dropLeftDir = helpers.dropLeftDir
+export let dropRightDir = helpers.dropRightDir
+export let dropBase = helpers.dropBase
+export let dropExt = helpers.dropExt
 
-exports.withDir = helpers.withDir
-exports.withBase = helpers.withBase
-exports.withName = helpers.withName
-exports.withExt = helpers.withExt
-exports.withLeftDir = helpers.withLeftDir
-exports.withRightDir = helpers.withRightDir
+export let withDir = helpers.withDir
+export let withBase = helpers.withBase
+export let withName = helpers.withName
+export let withExt = helpers.withExt
+export let withLeftDir = helpers.withLeftDir
+export let withRightDir = helpers.withRightDir
 
-exports.isAbsolute = helpers.isAbsolute
-exports.join = helpers.join
-exports.normalize = helpers.normalize
-exports.relative = helpers.relative
-exports.resolve = helpers.resolve
+export let isAbsolute = helpers.isAbsolute
+export let join = helpers.join
+export let normalize = helpers.normalize
+export let relative = helpers.relative
+export let resolve = helpers.resolve
 
-exports.padNumeric = helpers.padNumeric
-exports.padName = helpers.padName
-exports.padPath = helpers.padPath
+export let padNumeric = helpers.padNumeric
+export let padName = helpers.padName
+export let padPath = helpers.padPath
 
-exports.posix = makeHelpers(P.posix)
-exports.win32 = makeHelpers(P.win32)
+export let posix = makeHelpers(P.posix)
+export let win32 = makeHelpers(P.win32)

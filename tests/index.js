@@ -1,5 +1,5 @@
 let eq = require("assert").deepStrictEqual
-let P = require("../index")
+let P = require("../lib/index")
 
 let P1 = P.posix
 let P2 = P.win32
