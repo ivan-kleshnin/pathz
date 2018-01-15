@@ -1,6 +1,6 @@
 # Pathz
 
-Functional toolkit for file/dir paths. Drop-in [NodeJS Path](https://nodejs.org/api/path.html) replacement.
+Functional toolkit for file/dir paths. Drop-in [`path`](https://nodejs.org/api/path.html) replacement.
 Originally built for a static site generator where path transformations is a common task, but use-cases
 are really unlimited.
 
