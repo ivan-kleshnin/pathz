@@ -1,16 +1,16 @@
 import * as R from "@paqmind/ramda"
 import P from "path"
 
-RegExp.escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+let escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
-let makeHelpers = (P) => {
-  let ensureDir = (path) => path.endsWith(P.sep) ? path : path + P.sep
+export let makeHelpers = (P) => {
+  let ltrimPath = R.curry((root, path) => R.replace(new RegExp(`^${escape(root)}`), "", path))
 
-  let ltrimPath = R.curry((root, path) => R.replace(new RegExp(`^${RegExp.escape(root)}`), "", path))
-
-  let rtrimPath = R.replace(new RegExp(`${RegExp.escape(P.sep)}$`), "")
+  let rtrimPath = R.replace(new RegExp(`${escape(P.sep)}$`), "")
 
   let trimPath = R.curry((root, path) => R.pipe(ltrimPath(root), rtrimPath)(path))
+
+  let ensureDir = (path) => path.endsWith(P.sep) ? path : path + P.sep
 
   let parse = (path) => {
     let obj = P.parse(path)
@@ -205,48 +205,4 @@ let makeHelpers = (P) => {
   }
 }
 
-let helpers = makeHelpers(P)
-
-export let ensureDir = helpers.ensureDir
-export let ltrimPath = helpers.ltrimPath
-export let rtrimPath = helpers.rtrimPath
-export let trimPath = helpers.trimPath
-export let parse = helpers.parse
-export let format = helpers.format
-
-export let dir = helpers.dir
-export let splitDirs = helpers.splitDirs
-export let base = helpers.base
-export let name = helpers.name
-export let ext = helpers.ext
-export let leftDir = helpers.leftDir
-export let rightDir = helpers.rightDir
-export let leftDirs = helpers.leftDirs
-export let rightDirs = helpers.rightDirs
-
-export let addLeftDir = helpers.addLeftDir
-export let addRightDir = helpers.addRightDir
-export let dropLeftDir = helpers.dropLeftDir
-export let dropRightDir = helpers.dropRightDir
-export let dropBase = helpers.dropBase
-export let dropExt = helpers.dropExt
-
-export let withDir = helpers.withDir
-export let withBase = helpers.withBase
-export let withName = helpers.withName
-export let withExt = helpers.withExt
-export let withLeftDir = helpers.withLeftDir
-export let withRightDir = helpers.withRightDir
-
-export let isAbsolute = helpers.isAbsolute
-export let join = helpers.join
-export let normalize = helpers.normalize
-export let relative = helpers.relative
-export let resolve = helpers.resolve
-
-export let padNumeric = helpers.padNumeric
-export let padName = helpers.padName
-export let padPath = helpers.padPath
-
-export let posix = makeHelpers(P.posix)
-export let win32 = makeHelpers(P.win32)
+export default makeHelpers(P)

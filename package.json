@@ -10,10 +10,7 @@
     "url": "https://github.com/ivan-kleshnin/pathz"
   },
   "keywords": [
-    "fs",
-    "file",
-    "file system",
-    "path"
+    "fs", "file", "dir", "folder", "file system", "path", "functional", "fp"
   ],
   "main": "lib/index.js",
   "peerDependencies": {
@@ -29,6 +26,7 @@
   "scripts": {
     "prebuild": "rm -rf lib && mkdir -p lib",
     "build": "babel src/ -d lib/",
+    "build-watch": "babel --watch src/ -d lib/",
     "prepare": "npm run build",
     "test": "mocha tests/ --recursive"
   },

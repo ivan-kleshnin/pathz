@@ -1,28 +1,42 @@
 # Pathz
 
-Functional utils for FS paths. Drop-in [NodeJS Path](https://nodejs.org/api/path.html) replacement.
+Functional toolkit for file/dir paths. Drop-in [NodeJS Path](https://nodejs.org/api/path.html) replacement.
+Originally built for a static site generator where path transformations is a common task, but use-cases
+are really unlimited.
 
 ### Features
 
 * High-level path manipulations
 * Curried composable API
-* Crossplatform
-* 150+ tests
+* Crossplatform: works in NodeJS and all modern browsers
+* Extensive test suite
+
+Dependencies:
+* no
+
+Peer dependencies:
+* [`path`](https://nodejs.org/api/path)
+* [`@paqmind/ramda`](http://ramdajs.com/) (temp. until basic Ramda)
+
+## Usage
+
+```
+$ npm install pathz
+```
 
 ```js
+let P = require("pathz") // defaults to either POSIX or WIN32
+let P_posix = require("pathz/posix") // POSIX (P.sep is / etc.)
+let P_win32 = require("pathz/win32") // WIN32 (P.sep is \ etc.)
+
+// The following snippets also use shortcuts for:
 let R = require("ramda")
 let PP = require("path")
-let P = require("pathz")
-
-// Like in original PP there are:
-//   P.posix.* – POSIX helpers
-//   P.win32.* – WIN helpers
-//   P.*       – (current) platform helpers
 ```
 
 ## Motivation
 
-#### 1. Original Path `format` / `parse` are quite low-level
+#### 1. Original Path `format` / `parse` provide limited, low-level functionality
 
 #### 2. Pathz respects trailing OS sep
 
@@ -78,7 +92,7 @@ console.log(P.dropRightDir("/foo/bar/baz.txt")) // "/foo/baz.txt"
 // ...
 ```
 
-#### 6. Pathz has extra utils
+#### 6. Pathz provides extra utils
 
 ```js
 R.sortBy(P.padPath(2))([
@@ -93,18 +107,6 @@ R.sortBy(P.padPath(2))([
 //   'foo/bar/10.1/2.1',
 //   'foo/bar/11.1/2.1' ]
 ```
-
-## Install
-
-```
-npm install pathz
-```
-
-Dependencies (auto-installs):
-* [`ramda`](http://ramdajs.com/)
-
-Peer dependencies (expects):
-* [`path`](https://nodejs.org/api/path)
 
 ## API
 
