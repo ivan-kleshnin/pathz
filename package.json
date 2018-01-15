@@ -10,7 +10,14 @@
     "url": "https://github.com/ivan-kleshnin/pathz"
   },
   "keywords": [
-    "fs", "file", "dir", "folder", "file system", "path", "functional", "fp"
+    "fs",
+    "file",
+    "dir",
+    "folder",
+    "file system",
+    "path",
+    "functional",
+    "fp"
   ],
   "main": "lib/index.js",
   "peerDependencies": {
