@@ -26,8 +26,8 @@ $ npm install pathz
 
 ```js
 let P = require("pathz") // defaults to either POSIX or WIN32
-let P_posix = require("pathz/posix") // POSIX (P.sep is / etc.)
-let P_win32 = require("pathz/win32") // WIN32 (P.sep is \ etc.)
+let P_posix = require("pathz/lib/posix") // POSIX (P.sep is / etc.)
+let P_win32 = require("pathz/lib/win32") // WIN32 (P.sep is \ etc.)
 
 // The following snippets also use shortcuts for:
 let R = require("ramda")
@@ -36,7 +36,7 @@ let PP = require("path")
 
 ## Motivation
 
-#### 1. Original Path `format` / `parse` provide limited, low-level functionality
+#### 1. Original `format` / `parse` provide limited, low-level functionality
 
 #### 2. Pathz respects trailing OS sep
 
