@@ -3,6 +3,6 @@
 Thumbs.db
 node_modules
 npm-debug.log*
-/test*.js
 /ignore/
-/lib/
+/test*.js
+/*.js

@@ -1,6 +1,6 @@
 let R = require("@paqmind/ramda")
 let eq = require("assert").deepStrictEqual
-let P = require("../lib/posix").default
+let P = require("../posix").default
 
 describe("POSIX", () => {
   describe("dir()", () => {

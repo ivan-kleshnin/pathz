@@ -1,7 +1,7 @@
 # Pathz
 
 Functional toolkit for file/dir paths. Drop-in [`path`](https://nodejs.org/api/path.html) replacement.
-Originally built for a static site generator where path transformations is a common task, but use-cases
+Originally built for a static site generator where path transformations are common, but use-cases
 are really unlimited.
 
 ### Features
@@ -10,9 +10,6 @@ are really unlimited.
 * Curried composable API
 * Crossplatform: works in NodeJS and all modern browsers
 * Extensive test suite
-
-Dependencies:
-* no
 
 Peer dependencies:
 * [`path`](https://nodejs.org/api/path)
@@ -26,8 +23,8 @@ $ npm install pathz
 
 ```js
 let P = require("pathz") // defaults to either POSIX or WIN32
-let P_posix = require("pathz/lib/posix") // POSIX (P.sep is / etc.)
-let P_win32 = require("pathz/lib/win32") // WIN32 (P.sep is \ etc.)
+let P_posix = require("pathz/posix") // POSIX (P.sep is / etc.)
+let P_win32 = require("pathz/win32") // WIN32 (P.sep is \ etc.)
 
 // The following snippets also use shortcuts for:
 let R = require("ramda")
@@ -36,9 +33,9 @@ let PP = require("path")
 
 ## Motivation
 
-#### 1. Original `format` / `parse` provide limited, low-level functionality
+#### 1. Original `format` / `parse` provide limited, low-level, mutable API
 
-#### 2. Pathz respects trailing OS sep
+#### 2. `pathz` respects trailing separators as possible directory indicator
 
 ```js
 console.log(PP.dirname("/foo/bar/")) // "/foo"
@@ -48,7 +45,7 @@ console.log(PP.basename("/foo/bar/")) // "bar"
 console.log(P.base("/foo/bar/"))      // ""
 ```
 
-#### 3. Pathz respects "relativeness" and "absoluteness" of paths
+#### 3. `pathz` respects "relativeness" and "absoluteness" of paths
 
 ```js
 console.log(P.addLeftDir("bar", "/foo.txt"))  // "/bar/foo.txt" (+)
@@ -58,7 +55,7 @@ console.log(P.addRightDir("bar", "/foo.txt")) // "/bar/foo.txt" (+)
 console.log(PP.join("/foo.txt", "bar"))       // "/foo.txt/bar" (-) naive
 ```
 
-#### 4. Pathz is composition friendly
+#### 4. `pathz` is composition friendly
 
 ```js
 let R = require("ramda")
@@ -74,7 +71,7 @@ console.log(dst) // "public/team/about/index.html"
                  // corresponding to "/team/about/" URL
 ```
 
-#### 5. Pathz is like CRUD for path fragments
+#### 5. `pathz` is like CRUD for path fragments
 
 ```js
 // GET
@@ -92,7 +89,7 @@ console.log(P.dropRightDir("/foo/bar/baz.txt")) // "/foo/baz.txt"
 // ...
 ```
 
-#### 6. Pathz provides extra utils
+#### 6. `pathz` provides extra utils
 
 ```js
 R.sortBy(P.padPath(2))([

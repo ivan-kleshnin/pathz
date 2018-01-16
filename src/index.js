@@ -4,17 +4,19 @@ import P from "path"
 let escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
 export let makeHelpers = (P) => {
+  let sep = P.sep || "/"
+
   let ltrimPath = R.curry((root, path) => R.replace(new RegExp(`^${escape(root)}`), "", path))
 
-  let rtrimPath = R.replace(new RegExp(`${escape(P.sep)}$`), "")
+  let rtrimPath = R.replace(new RegExp(`${escape(sep)}$`), "")
 
   let trimPath = R.curry((root, path) => R.pipe(ltrimPath(root), rtrimPath)(path))
 
-  let ensureDir = (path) => path.endsWith(P.sep) ? path : path + P.sep
+  let ensureDir = (path) => path.endsWith(sep) ? path : path + sep
 
   let parse = (path) => {
     let obj = P.parse(path)
-    if (path.endsWith(P.sep)) {
+    if (path.endsWith(sep)) {
       obj.dir = P.join(obj.dir, obj.base)
       obj.base = ""
       obj.name = ""
@@ -28,16 +30,16 @@ export let makeHelpers = (P) => {
   }
 
   let dir = (path) => {
-    return path.endsWith(P.sep) ? path : P.dirname(path) + P.sep
+    return path.endsWith(sep) ? path : P.dirname(path) + sep
   }
 
   let splitDirs = (path) => {
     let obj = parse(path)
-    return R.split(P.sep, trimPath(obj.root, obj.dir))
+    return R.split(sep, trimPath(obj.root, obj.dir))
   }
 
   let base = (path) => {
-    return path.endsWith(P.sep) ? "" : P.basename(path)
+    return path.endsWith(sep) ? "" : P.basename(path)
   }
 
   let name = (path) => {
@@ -48,11 +50,11 @@ export let makeHelpers = (P) => {
     return withName("", base(path))
   }
 
-  let leftDirs = R.curry((n, path) => R.join(P.sep, R.take(n, splitDirs(path))))
+  let leftDirs = R.curry((n, path) => R.join(sep, R.take(n, splitDirs(path))))
 
   let leftDir = leftDirs(1)
 
-  let rightDirs = R.curry((n, path) => R.join(P.sep, R.takeLast(n, splitDirs(path))))
+  let rightDirs = R.curry((n, path) => R.join(sep, R.takeLast(n, splitDirs(path))))
 
   let rightDir = rightDirs(1)
 
@@ -86,9 +88,9 @@ export let makeHelpers = (P) => {
     let obj = parse(path)
     let newDir = R.pipe(
       trimPath(obj.root),
-      R.split(P.sep),
+      R.split(sep),
       R.drop(1),
-      R.join(P.sep),
+      R.join(sep),
       R.concat(obj.root)
     )(obj.dir)
     return format({
@@ -101,9 +103,9 @@ export let makeHelpers = (P) => {
     let obj = parse(path)
     let newDir = R.pipe(
       trimPath(obj.root),
-      R.split(P.sep),
+      R.split(sep),
       R.dropLast(1),
-      R.join(P.sep),
+      R.join(sep),
       R.concat(obj.root)
     )(obj.dir)
     return format({
@@ -160,9 +162,10 @@ export let makeHelpers = (P) => {
 
   let padName = R.curry((w, s) => R.pipe(R.split("."), R.map(padNumeric(w)), R.join("."))(s))
 
-  let padPath = R.curry((w, s) => R.pipe(R.split(P.sep), R.map(padName(w)), R.join(P.sep))(s))
+  let padPath = R.curry((w, s) => R.pipe(R.split(sep), R.map(padName(w)), R.join(sep))(s))
 
   return {
+    sep,
     ensureDir,
     ltrimPath,
     rtrimPath,

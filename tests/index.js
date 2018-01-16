@@ -1,8 +1,8 @@
 let R = require("@paqmind/ramda")
 let eq = require("assert").deepStrictEqual
-let P1 = require("../lib/posix").default
-let P2 = require("../lib/win32").default
-let P = require("../lib").default
+let P1 = require("../posix").default
+let P2 = require("../win32").default
+let P = require("..").default
 
 describe("index.js", () => {
   it("P, P1, P2 export the same API", () => {

@@ -1,6 +1,6 @@
 let R = require("@paqmind/ramda")
 let eq = require("assert").deepStrictEqual
-let P = require("../lib/win32").default
+let P = require("../win32").default
 
 describe("WINDOWS", () => {
   describe("dir()", () => {
