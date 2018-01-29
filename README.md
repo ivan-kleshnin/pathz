@@ -15,7 +15,8 @@ Peer dependencies:
 * [`@paqmind/ramda`](http://ramdajs.com/) (temp. until basic Ramda)
 
 Dependencies:
-* [`path`](https://nodejs.org/api/path) / [`path-webpack`](https://github.com/fchasen/path-webpack)
+* [`path`](https://nodejs.org/api/path) (Server)
+* [`path-webpack`](https://github.com/fchasen/path-webpack) (Browser)
 
 ## Usage
 
@@ -35,14 +36,9 @@ let PP = require("path")
 
 ### Browser
 
-Webpack's `path-browserify` dependency (polyfill of `path`) is very old and severily [bugged](https://github.com/substack/path-browserify/issues).
-Hey, it doesn't even provide a `parse` function! So you'll have to substitute it with another package.
-
-```
-$ npm install path-webpack
-```
-
-Add the following to your `webpack.config.js`:
+Usage hint. Webpack's `path-browserify` dependency (polyfill of `path`) is very old and severily [broken](https://github.com/substack/path-browserify/issues).
+It doesn't even provide a `parse` function! If you want to import `path` directly, be sure to
+substitute it with another package. Add the following to your `webpack.config.js`:
 
 ```js
 resolve: {
@@ -52,8 +48,9 @@ resolve: {
 }
 ```
 
-This can fix other libraries naively depending on `path` as well. Other bundlers, like Browserify
-or Rollup, should support such replacement as well.
+This can fix other libraries naively depending on `path` btw. Other bundlers, like Browserify
+or Rollup, should support such replacement. You can use this approach to keep `import P from "path"`
+or `import P from pathz/browser` instead. There's no support for Win-32 separators in Browser a.t.m.
 
 ## Motivation
 

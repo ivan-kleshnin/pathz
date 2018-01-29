@@ -1,7 +1,4 @@
-import P from "path"
+import P from "path-webpack"
 import {makeHelpers} from "./index"
 
-export default makeHelpers(Object.assign({}, P, {
-  sep: "/",
-  delimiter: ":",
-}))
+export default makeHelpers(P)

@@ -41,5 +41,8 @@
     "presets": [
       "es2015"
     ]
+  },
+  "dependencies": {
+    "path-webpack": "0.0.3"
   }
 }
