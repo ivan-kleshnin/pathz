@@ -35,7 +35,7 @@ let PP = require("path")
 
 ### Browser
 
-`webpack`'s built-in `path-browserify` is very old and severily [bugged](https://github.com/substack/path-browserify/issues).
+Webpack`s `path-browserify` dependency (polyfill of `path`) is very old and severily [bugged](https://github.com/substack/path-browserify/issues).
 Hey, it doesn't even provide a `parse` function! So you'll have to substitute it with another package.
 
 ```
@@ -51,6 +51,9 @@ resolve: {
   }
 }
 ```
+
+This can fix other libraries naively depending on `path` as well. Other bundlers, like Browserify
+or Rollup, should support such replacement as well.
 
 ## Motivation
 
