@@ -35,7 +35,7 @@ let PP = require("path")
 
 ### Browser
 
-Webpack`s `path-browserify` dependency (polyfill of `path`) is very old and severily [bugged](https://github.com/substack/path-browserify/issues).
+Webpack's `path-browserify` dependency (polyfill of `path`) is very old and severily [bugged](https://github.com/substack/path-browserify/issues).
 Hey, it doesn't even provide a `parse` function! So you'll have to substitute it with another package.
 
 ```
