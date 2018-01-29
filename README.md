@@ -12,8 +12,10 @@ are really unlimited.
 * Extensive test suite
 
 Peer dependencies:
-* [`path`](https://nodejs.org/api/path)
 * [`@paqmind/ramda`](http://ramdajs.com/) (temp. until basic Ramda)
+
+Dependencies:
+* [`path`](https://nodejs.org/api/path) / [`path-webpack`](https://github.com/fchasen/path-webpack)
 
 ## Usage
 
@@ -29,6 +31,25 @@ let P_win32 = require("pathz/win32") // WIN32 (P.sep is \ etc.)
 // The following snippets also use shortcuts for:
 let R = require("ramda")
 let PP = require("path")
+```
+
+### Browser
+
+`webpack`'s built-in `path-browserify` is very old and severily [bugged](https://github.com/substack/path-browserify/issues).
+Hey, it doesn't even provide a `parse` function! So you'll have to substitute it with another package.
+
+```
+$ npm install path-webpack
+```
+
+Add the following to your `webpack.config.js`:
+
+```js
+resolve: {
+  alias: {
+    path: "path-webpack"
+  }
+}
 ```
 
 ## Motivation
