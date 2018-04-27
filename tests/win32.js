@@ -1,6 +1,5 @@
-let R = require("@paqmind/ramda")
-let eq = require("assert").deepStrictEqual
-let P = require("../win32").default
+import {deepStrictEqual as eq} from "assert"
+import P from "../src/win32"
 
 describe("WINDOWS", () => {
   describe("dir()", () => {

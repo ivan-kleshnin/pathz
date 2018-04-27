@@ -1,8 +1,8 @@
-let R = require("@paqmind/ramda")
-let eq = require("assert").deepStrictEqual
-let P1 = require("../posix").default
-let P2 = require("../win32").default
-let P = require("..").default
+import * as R from "@paqmind/ramda"
+import {deepStrictEqual as eq} from "assert"
+import P1 from "../src/posix"
+import P2 from "../src/win32"
+import P from "../src"
 
 describe("index.js", () => {
   it("P, P1, P2 export the same API", () => {

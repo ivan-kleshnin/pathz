@@ -1,6 +1,5 @@
-let R = require("@paqmind/ramda")
-let eq = require("assert").deepStrictEqual
-let P = require("../posix").default
+import {deepStrictEqual as eq} from "assert"
+import P from "../src/posix"
 
 describe("POSIX", () => {
   describe("dir()", () => {

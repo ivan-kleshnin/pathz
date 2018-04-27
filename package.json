@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@paqmind/ramda": "*",
+    "babel-core": "^6.26.2",
     "mocha": "^3.2.0"
   },
   "engines": {
@@ -35,7 +36,7 @@
     "build": "babel src/ -d ./",
     "build-watch": "babel --watch src/ -d ./",
     "prepare": "npm run build",
-    "test": "mocha tests/ --recursive"
+    "test": "mocha --compilers js:babel-core/register --recursive tests/"
   },
   "babel": {
     "presets": [
