@@ -21,10 +21,10 @@
   ],
   "main": "index.js",
   "peerDependencies": {
-    "@paqmind/ramda": "*"
+    "@paqmind/ramdax": "*"
   },
   "devDependencies": {
-    "@paqmind/ramda": "*",
+    "@paqmind/ramdax": "*",
     "babel-core": "^6.26.2",
     "mocha": "^3.2.0"
   },
