@@ -12,7 +12,7 @@ are really unlimited.
 * Extensive test suite
 
 Peer dependencies:
-* [`@paqmind/ramda`](http://ramdajs.com/) (temp. until basic Ramda)
+* [`@paqmind/ramdax`](http://ramdajs.com/) (temp. until basic Ramda)
 
 Dependencies:
 * [`path`](https://nodejs.org/api/path) (Server)
@@ -30,7 +30,7 @@ let P_posix = require("pathz/posix") // POSIX (P.sep is / etc.)
 let P_win32 = require("pathz/win32") // WIN32 (P.sep is \ etc.)
 
 // The following snippets also use shortcuts for:
-let R = require("ramda")
+let R = require("ramdax")
 let PP = require("path")
 ```
 
@@ -50,7 +50,7 @@ resolve: {
 
 This can fix other libraries naively depending on `path` btw. Other bundlers, like Browserify
 or Rollup, should support such replacement. You can use this approach to keep `import P from "path"`
-or `import P from pathz/browser` instead. There's no support for Win-32 separators in Browser a.t.m.
+or `import P from pathz/lib/browser` instead. There's no support for Win-32 separators in Browser a.t.m.
 
 ## Motivation
 
@@ -79,7 +79,7 @@ console.log(PP.join("/foo.txt", "bar"))       // "/foo.txt/bar" (-) naive
 #### 4. `pathz` is composition friendly
 
 ```js
-let R = require("ramda")
+let R = require("ramdax")
 
 let src = "content/team/about.md"
 let dst = R.pipe(

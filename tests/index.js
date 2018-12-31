@@ -1,4 +1,4 @@
-import * as R from "@paqmind/ramda"
+import * as R from "@paqmind/ramdax"
 import {deepStrictEqual as eq} from "assert"
 import P1 from "../src/posix"
 import P2 from "../src/win32"

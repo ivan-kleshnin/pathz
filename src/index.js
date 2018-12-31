@@ -1,4 +1,4 @@
-import * as R from "@paqmind/ramda"
+import * as R from "@paqmind/ramdax"
 import P from "path"
 
 let escape = (s) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
